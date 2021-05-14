@@ -2,7 +2,7 @@
 
 namespace ExchangeApi\Result\Spot;
 
-class BalanceSpotResult
+class SpotBalance
 {
     private string $asset;
     private float $free;

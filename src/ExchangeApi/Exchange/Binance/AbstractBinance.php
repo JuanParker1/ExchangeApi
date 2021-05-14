@@ -8,40 +8,71 @@ use GuzzleHttp\Exception\GuzzleException;
 
 abstract class AbstractBinance extends AbstractExchange
 {
+    const EXCHANGE_NAME = 'binance';
+
+    /**
+     * AbstractBinance constructor.
+     * @param string|null $apiPublic
+     * @param string|null $apiSecret
+     */
     public function __construct(string $apiPublic = null, string $apiSecret = null)
     {
         parent::__construct($apiPublic, $apiSecret);
     }
 
-//    protected function post(): array
-//    {
-//        $headers = [];
-//        $time = (int)round(microtime(true) * 1000);
-//        $queryString = 'timestamp=' . $time . '&recvWindow=60000';
-//        $hash = hash_hmac('sha256', $queryString, $this->apiSecret);
-//        $queryString .= '&signature=' . $hash;
-//        $headers['headers'] = [
-//            'X-MBX-APIKEY' => $this->apiPublic,
-//            'signature' => $hash
-//        ];
-//
-//        $url = 'https://fapi.binance.com/fapi/v2/balance' . '?' . $queryString;
-//
-//        $response = $this->client->request('GET', $url, $headers);
-//        $result = json_decode($response->getBody()->getContents(), true);
-//    }
-
     /**
-     * @param string $uri
+     * @param string $url
+     * @param bool $mustBeSigned
      * @param string|null $queryParams
      * @return array
      * @throws GuzzleException
      */
-    protected function get(string $uri, string $queryParams = null): array
+    protected function delete(string $url, bool $mustBeSigned, string $queryParams = null): array
+    {
+        return $this->request(self::DELETE, $url, $mustBeSigned, $queryParams);
+    }
+
+    /**
+     * @param string $method
+     * @param string $url
+     * @param bool $mustBeSigned
+     * @param string|null $queryParams
+     * @return array
+     * @throws GuzzleException
+     */
+    private function request(string $method, string $url, bool $mustBeSigned, string $queryParams = null): array
+    {
+        list($headers, $url) = $this->createRequestPayload($url, $mustBeSigned, $queryParams);
+
+        $response = $this->client->request($method, $url, $headers);
+
+        return json_decode($response->getBody()->getContents(), true);
+    }
+
+    /**
+     * @param string|null $queryParams
+     * @param string $url
+     * @param bool $mustBeSigned
+     * @return array
+     */
+    protected function createRequestPayload(string $url, bool $mustBeSigned, ?string $queryParams): array
+    {
+        if ($mustBeSigned) {
+            list($headers, $queryString) = $this->signRequest($queryParams);
+            return array($headers, $url . '?' . $queryString);
+        }
+
+        return [[], $url . '?' . $queryParams];
+    }
+
+    /**
+     * @param string|null $queryParams
+     * @return array
+     */
+    protected function signRequest(?string $queryParams): array
     {
         $queryString = 'timestamp=' . $this->getMicroTime() . '&recvWindow=60000';
-        if (!is_null($queryParams)) $queryString = $queryParams . '&' . $queryString;
-
+        if (!is_null($queryParams)) $queryString .= '&' . $queryParams;
         $hash = hash_hmac('sha256', $queryString, $this->apiSecret);
         $queryString .= '&signature=' . $hash;
         $headers['headers'] = [
@@ -49,11 +80,31 @@ abstract class AbstractBinance extends AbstractExchange
             'signature' => $hash
         ];
 
-        $url = $uri . '?' . $queryString;
+        return [$headers, $queryString];
+    }
 
-        $response = $this->client->request('GET', $url, $headers);
+    /**
+     * @param string $url
+     * @param bool $mustBeSigned
+     * @param string|null $queryParams
+     * @return array
+     * @throws GuzzleException
+     */
+    protected function post(string $url, bool $mustBeSigned, string $queryParams = null): array
+    {
+        return $this->request(self::POST, $url, $mustBeSigned, $queryParams);
+    }
 
-        return json_decode($response->getBody()->getContents(), true);
+    /**
+     * @param string $url
+     * @param bool $mustBeSigned
+     * @param string|null $queryParams
+     * @return array
+     * @throws GuzzleException
+     */
+    protected function get(string $url, bool $mustBeSigned, string $queryParams = null): array
+    {
+        return $this->request(self::GET, $url, $mustBeSigned, $queryParams);
     }
 
     /**
@@ -123,6 +174,5 @@ abstract class AbstractBinance extends AbstractExchange
             default:
                 throw new Exception(sprintf('Unknown OrderType %s', $orderType));
         }
-
     }
 }

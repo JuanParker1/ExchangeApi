@@ -2,38 +2,30 @@
 
 namespace ExchangeApi\Exchange;
 
-use Exception;
 use GuzzleHttp\Client;
 
 abstract class AbstractExchange
 {
+    const DELETE = 'DELETE';
+    const POST = 'POST';
+    const GET = 'GET';
+
     protected Client $client;
     protected string $apiPublic;
     protected string $apiSecret;
 
-    public function __construct(string $apiPublic = null, string $apiSecret = null)
+    /**
+     * AbstractExchange constructor.
+     * @param string $apiPublic
+     * @param string $apiSecret
+     */
+    public function __construct(string $apiPublic, string $apiSecret)
     {
-        define('POEP', 'ok');
         $this->client = new Client();
-        $this->setApiKeys($apiPublic, $apiSecret);
+        $this->apiPublic = $apiPublic;
+        $this->apiSecret = $apiSecret;
+
         $this->defineConstants();
-    }
-
-    private function setApiKeys(?string $apiPublic, ?string $apiSecret): void
-    {
-        if (!is_null($apiPublic) && !is_null($apiSecret)) {
-            $this->apiPublic = $apiPublic;
-            $this->apiSecret = $apiSecret;
-            return;
-        }
-
-        if (!empty($_ENV['EXCHANGE_API_PUBLIC']) && !empty($_ENV['EXCHANGE_API_SECRET'])) {
-            $this->apiPublic = $_ENV['EXCHANGE_API_PUBLIC'];
-            $this->apiSecret = $_ENV['EXCHANGE_API_SECRET'];
-            return;
-        }
-
-        throw new Exception(sprintf('No API keys found.'));
     }
 
     private function defineConstants(): void
@@ -58,6 +50,7 @@ abstract class AbstractExchange
         define('ORDER_TYPE_TAKE_PROFIT', 'TAKE_PROFIT');
         define('ORDER_TYPE_TAKE_PROFIT_LIMIT', 'TAKE_PROFIT_LIMIT');
         define('ORDER_TYPE_LIMIT_MAKER', 'LIMIT_MAKER');
+        define('ORDER_TIME_IN_FORCE_GTC', 'GTC');
     }
 
     protected function getMicroTime(): int

@@ -2,7 +2,7 @@
 
 namespace ExchangeApi\Result\Spot;
 
-class OrderSpotResult
+class SpotOrder
 {
     private string $id;
     private string $symbol;
