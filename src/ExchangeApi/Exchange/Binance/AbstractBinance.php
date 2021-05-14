@@ -49,7 +49,7 @@ abstract class AbstractBinance extends AbstractExchange
     {
         if ($mustBeSigned) {
             list($headers, $queryString) = $this->signRequest($queryParams);
-            return array($url . '?' . $queryString, $headers);
+            return [$url . '?' . $queryString, $headers];
         }
 
         return [$url . '?' . $queryParams, []];
