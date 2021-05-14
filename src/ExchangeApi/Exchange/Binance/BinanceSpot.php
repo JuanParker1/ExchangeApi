@@ -122,9 +122,9 @@ final class BinanceSpot extends AbstractBinance implements ExchangeSpotInterface
             'symbol' => strtoupper($symbol),
             'quantity' => $quantity,
             'price' => $price,
-            'side' => ORDER_SIDE_BUY,
-            'type' => ORDER_TYPE_LIMIT,
-            'timeInForce' => ORDER_TIME_IN_FORCE_GTC,
+            'side' => 'BUY',
+            'type' => 'LIMIT',
+            'timeInForce' => 'GTC',
             'newOrderRespType' => 'RESULT'
         ]));
 
@@ -158,9 +158,9 @@ final class BinanceSpot extends AbstractBinance implements ExchangeSpotInterface
             'symbol' => strtoupper($symbol),
             'quantity' => $quantity,
             'price' => $price,
-            'side' => ORDER_SIDE_SELL,
-            'type' => ORDER_TYPE_LIMIT,
-            'timeInForce' => ORDER_TIME_IN_FORCE_GTC,
+            'side' => 'SELL',
+            'type' => 'LIMIT',
+            'timeInForce' => 'GTC',
             'newOrderRespType' => 'RESULT'
         ]));
 
