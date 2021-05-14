@@ -7,10 +7,10 @@ class SpotOrderBookEntry
     private float $price;
     private float $quantity;
 
-    public function __construct(float $price, float $timestamp)
+    public function __construct(float $price, float $quantity)
     {
         $this->price = $price;
-        $this->quantity = $timestamp;
+        $this->quantity = $quantity;
     }
 
     public function getPrice(): float
