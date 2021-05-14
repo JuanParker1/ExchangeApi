@@ -16,7 +16,7 @@ class ExchangeApiFactory
      * @return ExchangeSpotInterface
      * @throws Exception
      */
-    static function getExchangeSpotClient(?string $exchangeName = null, ?string $apiPublic = null, ?string $apiSecret = null): ExchangeSpotInterface
+    static function getSpotClient(?string $exchangeName = null, ?string $apiPublic = null, ?string $apiSecret = null): ExchangeSpotInterface
     {
         $exchangeName = $exchangeName ?? $_ENV['EXCHANGE_NAME'];
         $apiPublic = $apiPublic ?? $_ENV['EXCHANGE_API_KEY_PUBLIC'];
