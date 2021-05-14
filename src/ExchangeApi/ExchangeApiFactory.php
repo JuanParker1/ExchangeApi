@@ -33,7 +33,5 @@ class ExchangeApiFactory
             default:
                 throw new Exception(sprintf('No exchange implementation found for: %s', $exchangeName));
         }
-
     }
-
 }
