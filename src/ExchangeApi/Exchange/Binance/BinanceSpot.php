@@ -15,6 +15,12 @@ use GuzzleHttp\Exception\GuzzleException;
 
 final class BinanceSpot extends AbstractBinance implements ExchangeSpotInterface
 {
+    private const SELL = 'SELL';
+    private const BUY = 'BUY';
+    private const GTC = 'GTC';
+    private const LIMIT = 'LIMIT';
+    private const RESP_TYPE_RESULT = 'RESULT';
+
     private const URI = 'https://api.binance.com';
     private const BALANCE_ENDPOINT = '/api/v3/account';
     private const ORDER_BOOK_ENDPOINT = '/api/v3/depth';
@@ -122,10 +128,10 @@ final class BinanceSpot extends AbstractBinance implements ExchangeSpotInterface
             'symbol' => strtoupper($symbol),
             'quantity' => $quantity,
             'price' => $price,
-            'side' => 'BUY',
-            'type' => 'LIMIT',
-            'timeInForce' => 'GTC',
-            'newOrderRespType' => 'RESULT'
+            'side' => self::BUY,
+            'type' => self::LIMIT,
+            'timeInForce' => self::GTC,
+            'newOrderRespType' => self::RESP_TYPE_RESULT
         ]));
 
         $response = $this->post(self::URI . self::ORDER_ENDPOINT, true, $queryParams);
@@ -158,10 +164,10 @@ final class BinanceSpot extends AbstractBinance implements ExchangeSpotInterface
             'symbol' => strtoupper($symbol),
             'quantity' => $quantity,
             'price' => $price,
-            'side' => 'SELL',
-            'type' => 'LIMIT',
-            'timeInForce' => 'GTC',
-            'newOrderRespType' => 'RESULT'
+            'side' => self::SELL,
+            'type' => Self::LIMIT,
+            'timeInForce' => self::GTC,
+            'newOrderRespType' => self::RESP_TYPE_RESULT
         ]));
 
         $response = $this->post(self::URI . self::ORDER_ENDPOINT, true, $queryParams);
