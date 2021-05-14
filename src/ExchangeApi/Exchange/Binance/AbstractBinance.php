@@ -32,7 +32,7 @@ abstract class AbstractBinance extends AbstractExchange
      */
     private function request(string $method, string $url, bool $mustBeSigned, ?string $queryParams = null): array
     {
-        list($headers, $url) = $this->createRequestPayload($url, $mustBeSigned, $queryParams);
+        list($url, $headers) = $this->createRequestPayload($url, $mustBeSigned, $queryParams);
 
         $response = $this->client->request($method, $url, $headers);
 
@@ -49,10 +49,10 @@ abstract class AbstractBinance extends AbstractExchange
     {
         if ($mustBeSigned) {
             list($headers, $queryString) = $this->signRequest($queryParams);
-            return array($headers, $url . '?' . $queryString);
+            return array($url . '?' . $queryString, $headers);
         }
 
-        return [[], $url . '?' . $queryParams];
+        return [$url . '?' . $queryParams, []];
     }
 
     /**
