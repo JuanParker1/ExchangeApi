@@ -17,7 +17,7 @@ abstract class AbstractBinance extends AbstractExchange
      * @return array
      * @throws GuzzleException
      */
-    protected function delete(string $url, bool $mustBeSigned, string $queryParams = null): array
+    protected function delete(string $url, bool $mustBeSigned, ?string $queryParams = null): array
     {
         return $this->request(self::DELETE, $url, $mustBeSigned, $queryParams);
     }
@@ -30,7 +30,7 @@ abstract class AbstractBinance extends AbstractExchange
      * @return array
      * @throws GuzzleException
      */
-    private function request(string $method, string $url, bool $mustBeSigned, string $queryParams = null): array
+    private function request(string $method, string $url, bool $mustBeSigned, ?string $queryParams = null): array
     {
         list($headers, $url) = $this->createRequestPayload($url, $mustBeSigned, $queryParams);
 
@@ -45,7 +45,7 @@ abstract class AbstractBinance extends AbstractExchange
      * @param bool $mustBeSigned
      * @return array
      */
-    protected function createRequestPayload(string $url, bool $mustBeSigned, ?string $queryParams): array
+    protected function createRequestPayload(string $url, bool $mustBeSigned, ?string $queryParams = null): array
     {
         if ($mustBeSigned) {
             list($headers, $queryString) = $this->signRequest($queryParams);
@@ -59,7 +59,7 @@ abstract class AbstractBinance extends AbstractExchange
      * @param string|null $queryParams
      * @return array
      */
-    protected function signRequest(?string $queryParams): array
+    protected function signRequest(?string $queryParams = null): array
     {
         $queryString = 'timestamp=' . $this->getMicroTime() . '&recvWindow=60000';
         if (!is_null($queryParams)) $queryString .= '&' . $queryParams;
@@ -80,7 +80,7 @@ abstract class AbstractBinance extends AbstractExchange
      * @return array
      * @throws GuzzleException
      */
-    protected function post(string $url, bool $mustBeSigned, string $queryParams = null): array
+    protected function post(string $url, bool $mustBeSigned, ?string $queryParams = null): array
     {
         return $this->request(self::POST, $url, $mustBeSigned, $queryParams);
     }
@@ -92,7 +92,7 @@ abstract class AbstractBinance extends AbstractExchange
      * @return array
      * @throws GuzzleException
      */
-    protected function get(string $url, bool $mustBeSigned, string $queryParams = null): array
+    protected function get(string $url, bool $mustBeSigned, ?string $queryParams = null): array
     {
         return $this->request(self::GET, $url, $mustBeSigned, $queryParams);
     }
