@@ -19,7 +19,7 @@ final class BinanceSpot extends AbstractBinance implements ExchangeSpotInterface
     private const ORDER_SIDE_BUY = 'BUY';
     private const ORDER_TIME_IN_FORCE_GTC = 'GTC';
     private const ORDER_TYPE_LIMIT = 'LIMIT';
-    private const ORDER_RESP_TYPE_RESULT = 'RESULT';
+    private const ORDER_RESP_RESULT = 'RESULT';
 
     private const URI = 'https://api.binance.com';
     private const BALANCE_ENDPOINT = '/api/v3/account';
@@ -131,7 +131,7 @@ final class BinanceSpot extends AbstractBinance implements ExchangeSpotInterface
             'side' => self::ORDER_SIDE_BUY,
             'type' => self::ORDER_TYPE_LIMIT,
             'timeInForce' => self::ORDER_TIME_IN_FORCE_GTC,
-            'newOrderRespType' => self::ORDER_RESP_TYPE_RESULT
+            'newOrderRespType' => self::ORDER_RESP_RESULT
         ]));
 
         $response = $this->post(self::URI . self::ORDER_ENDPOINT, true, $queryParams);
@@ -167,7 +167,7 @@ final class BinanceSpot extends AbstractBinance implements ExchangeSpotInterface
             'side' => self::ORDER_SIDE_SELL,
             'type' => Self::ORDER_TYPE_LIMIT,
             'timeInForce' => self::ORDER_TIME_IN_FORCE_GTC,
-            'newOrderRespType' => self::ORDER_RESP_TYPE_RESULT
+            'newOrderRespType' => self::ORDER_RESP_RESULT
         ]));
 
         $response = $this->post(self::URI . self::ORDER_ENDPOINT, true, $queryParams);
