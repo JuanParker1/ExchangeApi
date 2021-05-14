@@ -18,7 +18,7 @@ class SpotOrderBookEntry
         return $this->price;
     }
 
-    public function getQuantity(): int
+    public function getQuantity(): float
     {
         return $this->quantity;
     }
