@@ -33,7 +33,7 @@ final class BinanceSpot extends AbstractBinance implements ExchangeSpotInterface
         $response = $this->get(self::URI . self::BALANCE_ENDPOINT, true);
 
         foreach ($response['balances'] as $balance) {
-            $result[] = new SpotBalance($balance['asset'], $balance['free'], $balance['locked']);
+            $result[] = new SpotBalance($balance['asset'], $balance['free'], $balance['locked'], ($balance['free'] + $balance['locked']));
         }
 
         return $result;

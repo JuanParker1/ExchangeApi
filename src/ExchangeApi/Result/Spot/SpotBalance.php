@@ -7,12 +7,19 @@ class SpotBalance
     private string $asset;
     private float $free;
     private float $locked;
+    private float $total;
 
-    public function __construct(string $asset, float $free, float $locked)
+    public function __construct(string $asset, float $free, float $locked, float $total)
     {
         $this->asset = $asset;
         $this->free = $free;
         $this->locked = $locked;
+        $this->total = $total;
+    }
+
+    public function getTotal(): float
+    {
+        return $this->total;
     }
 
     public function getLocked(): float
