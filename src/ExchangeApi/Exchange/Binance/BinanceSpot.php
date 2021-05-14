@@ -15,10 +15,10 @@ use GuzzleHttp\Exception\GuzzleException;
 
 final class BinanceSpot extends AbstractBinance implements ExchangeSpotInterface
 {
-    private const SELL = 'SELL';
-    private const BUY = 'BUY';
-    private const GTC = 'GTC';
-    private const LIMIT = 'LIMIT';
+    private const ORDER_SIDE_SELL = 'SELL';
+    private const ORDER_SIDE_BUY = 'BUY';
+    private const ORDER_TIME_IN_FORCE_GTC = 'GTC';
+    private const ORDER_TYPE_LIMIT = 'LIMIT';
     private const RESP_TYPE_RESULT = 'RESULT';
 
     private const URI = 'https://api.binance.com';
@@ -128,9 +128,9 @@ final class BinanceSpot extends AbstractBinance implements ExchangeSpotInterface
             'symbol' => strtoupper($symbol),
             'quantity' => $quantity,
             'price' => $price,
-            'side' => self::BUY,
-            'type' => self::LIMIT,
-            'timeInForce' => self::GTC,
+            'side' => self::ORDER_SIDE_BUY,
+            'type' => self::ORDER_TYPE_LIMIT,
+            'timeInForce' => self::ORDER_TIME_IN_FORCE_GTC,
             'newOrderRespType' => self::RESP_TYPE_RESULT
         ]));
 
@@ -164,9 +164,9 @@ final class BinanceSpot extends AbstractBinance implements ExchangeSpotInterface
             'symbol' => strtoupper($symbol),
             'quantity' => $quantity,
             'price' => $price,
-            'side' => self::SELL,
-            'type' => Self::LIMIT,
-            'timeInForce' => self::GTC,
+            'side' => self::ORDER_SIDE_SELL,
+            'type' => Self::ORDER_TYPE_LIMIT,
+            'timeInForce' => self::ORDER_TIME_IN_FORCE_GTC,
             'newOrderRespType' => self::RESP_TYPE_RESULT
         ]));
 
