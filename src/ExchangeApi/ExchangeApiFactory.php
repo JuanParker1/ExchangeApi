@@ -28,7 +28,7 @@ class ExchangeApiFactory
         }
 
         switch (strtolower($exchangeName)) {
-            case AbstractBinance::EXCHANGE_NAME:
+            case strtolower(AbstractBinance::EXCHANGE_NAME):
                 return new BinanceSpot($apiPublic, $apiSecret);
             default:
                 throw new Exception(sprintf('No exchange implementation found for: %s', $exchangeName));
