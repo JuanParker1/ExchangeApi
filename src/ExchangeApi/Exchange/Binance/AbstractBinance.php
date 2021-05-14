@@ -45,7 +45,7 @@ abstract class AbstractBinance extends AbstractExchange
      * @param bool $mustBeSigned
      * @return array
      */
-    protected function createRequestPayload(string $url, bool $mustBeSigned, ?string $queryParams = null): array
+    private function createRequestPayload(string $url, bool $mustBeSigned, ?string $queryParams = null): array
     {
         if ($mustBeSigned) {
             list($headers, $queryString) = $this->signRequest($queryParams);
@@ -59,7 +59,7 @@ abstract class AbstractBinance extends AbstractExchange
      * @param string|null $queryParams
      * @return array
      */
-    protected function signRequest(?string $queryParams = null): array
+    private function signRequest(?string $queryParams = null): array
     {
         $queryString = 'timestamp=' . $this->getMicroTime() . '&recvWindow=60000';
         if (!is_null($queryParams)) $queryString .= '&' . $queryParams;
