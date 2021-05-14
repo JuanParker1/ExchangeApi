@@ -11,16 +11,6 @@ abstract class AbstractBinance extends AbstractExchange
     const EXCHANGE_NAME = 'binance';
 
     /**
-     * AbstractBinance constructor.
-     * @param string|null $apiPublic
-     * @param string|null $apiSecret
-     */
-    public function __construct(string $apiPublic = null, string $apiSecret = null)
-    {
-        parent::__construct($apiPublic, $apiSecret);
-    }
-
-    /**
      * @param string $url
      * @param bool $mustBeSigned
      * @param string|null $queryParams
